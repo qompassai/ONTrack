@@ -1,0 +1,16 @@
+# Cargo.toml
+# Qompass AI - [ ]
+# Copyright (C) 2026 Qompass AI, All rights reserved
+# ----------------------------------------
+[package]
+name = "ontrack"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+name = "ontrack"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.22", features = ["extension-module"] }
+

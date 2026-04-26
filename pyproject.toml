@@ -1,0 +1,51 @@
+#:tombi schema.strict = false
+
+[build-system]
+requires = ["maturin>=1.4,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "ontrack"
+version = "0.1.0"
+description = "Ontrack"
+readme = "README.md"
+license = "MIT"
+authors = [{ name = "Matt A. Porter", email = "ma@eqompassai.ai" }]
+requires-python = ">=3.9"
+classifiers = [
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Rust",
+]
+dependencies = [
+    "faster-whisper>=1.0",
+    "folium>=0.14",
+    "geopy>=2.3",
+    "openpyxl>=3.0",
+    "ortools>=9.5",
+    "pandas>=1.5",
+    "Pillow>=9.0",
+    "python-dotenv>=1.0",
+    "requests>=2.28",
+    "sounddevice>=0.4.6",
+    "soundfile>=0.12",
+]
+
+[project.urls]
+Homepage = "https://github.com/qompassai/Python"
+Repository = "https://github.com/qompassai/Python"
+
+[tool.maturin]
+module-name = "ontrack"
+python-source = "."
+
+[tool.coverage.report]
+fail_under = 70
+show_missing = true
+
+[tool.coverage.run]
+omit = ["assets/*", "gui/*", "tests/*"]
+source = ["config", "core"]

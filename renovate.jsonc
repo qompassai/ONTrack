@@ -1,0 +1,25 @@
+// /qompassai/ontrack/renovate.jsonc
+// Qompass AI Bunker Renovate Config
+// Copyright (C) 2025 Qompass AI, All rights reserved
+/////////////////////////////////////////////////////
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "group:allNonMajor"
+  ],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "extends": ["schedule:weekly"]
+  },
+  "nix": {
+    "enabled": true
+  },
+  "packageRules": [
+    {
+      "matchPackageNames": ["pdoc"],
+      "groupName": "docs tooling"
+    }
+  ]
+}
+

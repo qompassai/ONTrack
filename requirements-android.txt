@@ -1,0 +1,17 @@
+# OnTrack v2 — Android (python-for-android / buildozer) requirements
+# These are the pip packages baked into the APK.
+# NOTE: ortools has no p4a recipe — solver falls back to nearest-neighbor.
+
+kivy>=2.2.0
+requests>=2.28
+geopy>=2.3
+python-dotenv>=1.0
+Pillow>=9.0
+
+# plyer provides GPS access via p4a recipe
+plyer>=2.1
+
+# Voice recognition — offline Whisper on Android
+# NOTE: faster-whisper requires CTranslate2 which has an ARM64 wheel for Android
+# If build fails, pin to: faster-whisper==0.10.1 ctranslate2==3.24.0
+faster-whisper>=1.0
