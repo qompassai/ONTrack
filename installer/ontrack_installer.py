@@ -1,20 +1,7 @@
 #!/usr/bin/env python3
+#/qompassai/ONTrack/installer/ontrack_installer.spec
 """
 OnTrack — GUI Installer
-TDS Telecom Field Route Optimizer (Python edition)
-
-Packages and installs the OnTrack Python app on Windows or Linux.
-Run standalone:   python ontrack_installer.py
-Frozen binary:    pyinstaller installer.spec  →  OnTrackInstaller.exe / OnTrackInstaller
-
-What it does:
-  1. Detect platform (Windows / Linux)
-  2. Let user choose install directory
-  3. Extract the bundled app files into that directory
-  4. Create a Python virtual environment
-  5. Install pip dependencies from requirements.txt
-  6. Create a desktop shortcut / .desktop file
-  7. On Windows: optionally add to PATH and create Start Menu entry
 """
 
 from __future__ import annotations
@@ -33,7 +20,6 @@ import customtkinter as ctk
 import tkinter as tk
 from tkinter import filedialog, messagebox
 
-# ── Brand colours ─────────────────────────────────────────────────────────
 TDS_BLUE    = "#0057A8"
 TDS_NAVY    = "#002855"
 TDS_ORANGE  = "#F26522"
@@ -52,7 +38,6 @@ APP_ORG     = "TDS Telecom"
 IS_WINDOWS  = platform.system() == "Windows"
 IS_LINUX    = platform.system() == "Linux"
 
-# ── Default install paths ──────────────────────────────────────────────────
 
 def default_install_dir() -> str:
     if IS_WINDOWS:
@@ -66,7 +51,6 @@ def desktop_dir() -> str:
     xdg = os.environ.get("XDG_DESKTOP_DIR", "")
     return xdg if xdg else os.path.expanduser("~/Desktop")
 
-# ── Source detection ───────────────────────────────────────────────────────
 
 def source_root() -> pathlib.Path:
     """
@@ -76,15 +60,11 @@ def source_root() -> pathlib.Path:
     """
     if hasattr(sys, "_MEIPASS"):
         return pathlib.Path(sys._MEIPASS)
-    # Running from source: installer lives in ontrack/installer/
     return pathlib.Path(__file__).parent.parent.resolve()
 
 def requirements_path() -> pathlib.Path:
     return source_root() / "requirements.txt"
 
-# ──────────────────────────────────────────────────────────────────────────
-# Installer logic
-# ──────────────────────────────────────────────────────────────────────────
 
 class InstallerWorker:
     """Runs installation steps on a background thread."""
@@ -196,7 +176,7 @@ $Shortcut.Save()
         """Create a .desktop file in ~/.local/share/applications and on Desktop."""
         venv_python = self.install_dir / ".venv" / "bin" / "python"
         main_py     = self.install_dir / "main.py"
-        icon        = self.install_dir / "assets" / "ontrack.png"
+        icon        = self.install_dir / "assets" / "icon.png"
 
         desktop_entry = (
             "[Desktop Entry]\n"
@@ -209,24 +189,18 @@ $Shortcut.Save()
             "Categories=Utility;Geography;\n"
         )
 
-        # System applications directory
         apps_dir = pathlib.Path.home() / ".local" / "share" / "applications"
         apps_dir.mkdir(parents=True, exist_ok=True)
         app_file = apps_dir / "ontrack.desktop"
         app_file.write_text(desktop_entry)
         app_file.chmod(app_file.stat().st_mode | stat.S_IEXEC)
 
-        # Desktop shortcut
         desk = pathlib.Path(desktop_dir())
         if desk.exists():
             desk_file = desk / "OnTrack.desktop"
             desk_file.write_text(desktop_entry)
             desk_file.chmod(desk_file.stat().st_mode | stat.S_IEXEC)
 
-
-# ──────────────────────────────────────────────────────────────────────────
-# GUI
-# ──────────────────────────────────────────────────────────────────────────
 
 class OnTrackInstaller(ctk.CTk):
     PAGE_WELCOME  = 0
@@ -254,8 +228,6 @@ class OnTrackInstaller(ctk.CTk):
 
         self._build()
         self._show_page(self.PAGE_WELCOME)
-
-    # ── Layout ─────────────────────────────────────────────────────────────
 
     def _build(self):
         # Header strip
@@ -292,8 +264,6 @@ class OnTrackInstaller(ctk.CTk):
             frame.place(relx=0, rely=0, relwidth=1, relheight=1)
             builder(frame)
             self.pages[pid] = frame
-
-    # ── Page builders ───────────────────────────────────────────────────────
 
     def _build_welcome(self, p: ctk.CTkFrame):
         ctk.CTkLabel(
@@ -342,7 +312,6 @@ class OnTrackInstaller(ctk.CTk):
             text_color=TDS_WHITE,
         ).pack(pady=(28, 16))
 
-        # Install directory
         dir_card = ctk.CTkFrame(p, fg_color=TDS_SURFACE, corner_radius=10)
         dir_card.pack(fill="x", padx=60, pady=(0, 12))
         ctk.CTkLabel(
@@ -370,7 +339,6 @@ class OnTrackInstaller(ctk.CTk):
             command=self._browse_dir,
         ).grid(row=0, column=1)
 
-        # Options
         opts_card = ctk.CTkFrame(p, fg_color=TDS_SURFACE, corner_radius=10)
         opts_card.pack(fill="x", padx=60, pady=(0, 12))
         ctk.CTkLabel(
@@ -398,7 +366,6 @@ class OnTrackInstaller(ctk.CTk):
         else:
             ctk.CTkFrame(opts_card, height=8, fg_color="transparent").pack()
 
-        # Disk space estimate
         ctk.CTkLabel(
             p,
             text="Estimated disk usage: ~250 MB (includes Python venv + dependencies)",
@@ -504,15 +471,11 @@ class OnTrackInstaller(ctk.CTk):
             command=self.quit,
         ).pack(side="left", padx=8)
 
-    # ── Navigation ──────────────────────────────────────────────────────────
-
     def _show_page(self, pid: int):
         self._page = pid
         for k, frame in self.pages.items():
             if k == pid:
                 frame.lift()
-
-    # ── Actions ─────────────────────────────────────────────────────────────
 
     def _browse_dir(self):
         d = filedialog.askdirectory(title="Choose install directory",
@@ -604,8 +567,6 @@ class OnTrackInstaller(ctk.CTk):
         self.quit()
 
 
-# ── Uninstaller helper ─────────────────────────────────────────────────────
-
 class UninstallHelper:
     """Removes OnTrack from the machine. Run with --uninstall flag."""
 
@@ -664,8 +625,6 @@ class UninstallHelper:
 
         root.mainloop()
 
-
-# ── Entry point ────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
     if "--uninstall" in sys.argv:

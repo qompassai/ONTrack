@@ -1,0 +1,13 @@
+// /qompassai/ONTrack/assets/themes/ontrack.jsonc
+{
+    "CTk": { "fg_color": ["#111827", "#111827"] },
+    "CTkFrame": {
+        "fg_color": ["#1A2535", "#1A2535"],
+        "top_fg_color": ["#243044", "#243044"]
+    },
+    "CTkButton": {
+        "fg_color": ["#0057A8", "#0057A8"],
+        "hover_color": ["#002855", "#002855"],
+        "text_color": ["#FFFFFF", "#FFFFFF"]
+    }
+}
