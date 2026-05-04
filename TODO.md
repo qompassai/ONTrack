@@ -27,35 +27,6 @@ Require the Nix devShell to be active (`nix develop`) before running `build.sh`.
 
 ---
 
-### `buildozer.spec` — `faster-whisper` absent from `requirements`
-
-The voice feature requires `faster-whisper` (and its dependency `ctranslate2`) on Android.
-Neither is listed in `buildozer.spec`'s `requirements` block. Voice transcription will
-be unavailable in the APK even though `VoiceScreen` is built for it.
-
-**TODO:**
-```ini
-requirements =
-    geopy,
-    kivy==2.3.0,
-    Pillow,
-    plyer,
-    python3,
-    python-dotenv,
-    requests,
-    faster-whisper,
-    ctranslate2
-```
-
-Verify an ARM64 wheel exists for `ctranslate2`; if the build fails, pin versions as
-noted in `requirements-android.txt`:
-```
-faster-whisper==0.10.1
-ctranslate2==3.24.0
-```
-
----
-
 ### `mobile/app.py` — `VoiceScreen` never registered in the `ScreenManager`
 
 `mobile/app.py` adds `HomeScreen`, `ResultsScreen`, and `SettingsScreen` to the

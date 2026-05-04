@@ -1,7 +1,5 @@
 # OnTrack v2 — Desktop (Windows / Linux x86_64) requirements
-# Install: pip install -r requirements.txt
 
-# ── Core logic ──────────────────────────────────────────────────────────────
 pandas>=1.5
 openpyxl>=3.0
 geopy>=2.3
@@ -9,28 +7,15 @@ requests>=2.28
 ortools>=9.5
 python-dotenv>=1.0
 routingpy>=1.0
-
-# ── Desktop GUI ──────────────────────────────────────────────────────────────
+ctranslate2
 customtkinter>=5.2
 Pillow>=9.0
-
-# ── Desktop packaging ────────────────────────────────────────────────────────
 pyinstaller>=6.0
 pyshortcuts>=1.9
-
-# ── Map rendering (desktop preview panel) ───────────────────────────────────
 folium>=0.14
-
-# ── Voice recognition ──────────────────────────────────────────────────────
-# Offline speech transcription via Whisper (CTranslate2 backend, fast CPU/GPU)
 faster-whisper>=1.0
-# Cross-platform audio capture (Linux PipeWire-ALSA, Windows WASAPI, macOS CoreAudio)
 sounddevice>=0.4.6
 soundfile>=0.12
-# Optional: GPU acceleration for faster-whisper
-# torch>=2.0   # uncomment if CUDA GPU is available
-
-# ── Dev / test ───────────────────────────────────────────────────────────────
 pytest>=8.0
 pytest-mock>=3.12
 pytest-cov>=5.0
