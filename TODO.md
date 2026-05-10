@@ -362,27 +362,6 @@ datas=[
 
 ---
 
-
-### `.gitignore` excludes `*.spec` — this hides `ontrack.spec` from the repo
-
-```
-*.spec
-```
-
-Both `ontrack.spec` (PyInstaller) and `buildozer.spec` are committed intentionally
-and needed for reproducible builds, but `*.spec` would exclude them from tracking
-if `.gitignore` were applied retroactively or on a fresh clone.
-
-**TODO:** Add explicit exceptions:
-```
-*.spec
-!ontrack.spec
-!buildozer.spec
-!installer/installer.spec
-```
-
----
-
 ###  `tags` file committed to version control
 
 A `tags` (ctags/etags) file is present at `ontrack/tags`. This is a local developer
